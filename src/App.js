@@ -1,10 +1,12 @@
+import { lazy, Suspense } from 'react'
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Login } from './componentes/Views/Login/Login'
 import { Register } from './componentes/Views/Register/Register'
-import { Error404 } from './componentes/Views/Error404/Error404'
 import { Tasks } from './componentes/Views/Tasks/Tasks'
 import './App.css'
+
+const Error404=lazy(()=>import('./componentes/Views/Error404/Error404')); //ver Lazy tutorial
 
 const RequireAuth = ({ children }) => { /*children hace referencia al componente hijo de RequireAuth*/
     if (!localStorage.getItem("logged")) { //Si no esta logeado, la app nos redirige hacia el componente login
@@ -66,7 +68,9 @@ export const App = () => {
                             exit="out"
                             variants={pageTransition}
                         >
-                            <Error404 />
+                            <Suspense fallback={<div>cargandoo...</div>}>
+                                <Error404 />
+                            </Suspense>
                         </motion.div>
                     }
                 />
