@@ -1,0 +1,14 @@
+header{
+    box-sizing: 0 2px 5px rgb(155, 155, 155);
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 15px;
+}
+
+header img{
+    width:90px;
+}
+
+header div{
+    cursor:pointer
+}
