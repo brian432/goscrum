@@ -1,4 +1,5 @@
 import { Header } from "../../Header/Header"
+import { TaskForm } from "../../TaskForm/TaskForm"
 import './Tasks.css'
 import {cardData} from './data'
 
@@ -7,6 +8,7 @@ export const Tasks = () => {
         <>
             <Header />
             <main id="tasks">
+                <TaskForm />
                 <section className="wrapper_list">
                     <div className="list_header">
                         <h2>Mis tareas</h2>
