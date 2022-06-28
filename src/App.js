@@ -1,8 +1,8 @@
 import { lazy, Suspense } from 'react'
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Login } from './componentes/Views/Login/Login'
-import { Register } from './componentes/Views/Register/Register'
+import { Login } from './componentes/Views/auth/Login/Login'
+import { Register } from './componentes/Views/auth/Register/Register'
 import { Tasks } from './componentes/Views/Tasks/Tasks'
 import './App.css'
 
@@ -55,6 +55,20 @@ export const App = () => {
                             variants={pageTransition}
                         >
                             <Login />
+                        </motion.div>
+                    }
+                />
+                <Route
+                    path="/register"
+                    element={
+                        <motion.div
+                            className="page"
+                            initial="out"
+                            animate="in"
+                            exit="out"
+                            variants={pageTransition}
+                        >
+                            <Register />
                         </motion.div>
                     }
                 />
