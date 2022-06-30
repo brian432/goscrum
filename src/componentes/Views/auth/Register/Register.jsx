@@ -7,12 +7,14 @@ import { Switch, FormControlLabel } from "@mui/material"
 import { v4 as uuidv4 } from 'uuid'
 import '../Auth.css'
 
+const { REACT_APP_API_ENDPOINT } = process.env
+
 export const Register = () => {
 
     const [data, setData] = useState();
     const navigate = useNavigate();
     useEffect(() => {
-        fetch('https://goscrum-api.alkemy.org/auth/data')
+        fetch(`${REACT_APP_API_ENDPOINT}auth/data`)
             .then(response => response.json())
             .then(data => setData(data.result))
     }, [])
@@ -45,7 +47,7 @@ export const Register = () => {
 
     const onSubmit = () => {
         const teamID = !values.teamID ? uuidv4() : values.teamID
-        fetch('https://goscrum-api.alkemy.org/auth/register', { //Recordar que al probar la api, siempre cambiar el nombre de usuario y el email porque sino el post request tirara un error
+        fetch(`${REACT_APP_API_ENDPOINT}auth/register`, { //Recordar que al probar la api, siempre cambiar el nombre de usuario y el email porque sino el post request tirara un error
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -61,8 +63,7 @@ export const Register = () => {
                     region: values.region,
                 },
             }),
-        }).then((response) => response.json())
-            .then(data => navigate("/registered/" + data?.result?.user?.teamID, { replace: true }))
+        }).then((response) => response.json()).then(data => navigate("/registered/" + data?.result?.user?.teamID, { replace: true }))
 
     }
 
