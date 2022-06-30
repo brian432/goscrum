@@ -16,10 +16,12 @@ export const TaskForm = () => {
         alert("dsadas")
     }
 
+    const required="* Campo obligatorio"
+
     const validationSchema = Yup.object().shape({
-        title:Yup.string().min(6, "Ingrese mas de 5 caracteres").required("* Campo obligatorio"),
-        status:Yup.string().required("* Campo obligatorio"),
-        priority:Yup.string().required("* Campo obligatorio")
+        title:Yup.string().min(6, "Ingrese mas de 5 caracteres").required(required),
+        status:Yup.string().required(required),
+        priority:Yup.string().required(required)
     })
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit })

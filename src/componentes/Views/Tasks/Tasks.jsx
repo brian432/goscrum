@@ -16,7 +16,7 @@ export const Tasks = () => {
                     <div className="list">
                         {
                             cardData.map((card, index) =>
-                                <div className="container">
+                                <div className="container" key={index}>
                                     <h4 className="tipo">{card.tipo}</h4>
                                     <div className="card">
                                         <div className="close">X</div>
