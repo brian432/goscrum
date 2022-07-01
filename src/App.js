@@ -11,7 +11,7 @@ import './App.css'
 const Error404=lazy(()=>import('./componentes/Views/Error404/Error404')); //ver Lazy tutorial
 
 const RequireAuth = ({ children }) => { /*children hace referencia al componente hijo de RequireAuth*/
-    if (!localStorage.getItem("logged")) { //Si no esta logeado, la app nos redirige hacia el componente login
+    if (!localStorage.getItem("token")) { //Si no esta logeado, la app nos redirige hacia el componente login
         return <Navigate to="/login" replace={true} />
     }
     return children //si esta logeado, la app nos redirige hacia el componente hijo de RequireAuth
