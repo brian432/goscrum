@@ -32,7 +32,6 @@ export const TaskForm = () => {
             }
                
             )
-        //console.log(values);
     }
 
     const required = "* Campo obligatorio"
