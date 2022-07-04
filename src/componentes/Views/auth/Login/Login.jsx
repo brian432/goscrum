@@ -2,6 +2,7 @@ import { useFormik } from "formik"
 import { useNavigate, Link } from 'react-router-dom'
 import * as Yup from 'yup'
 import '../Auth.css'
+import { swal } from "../../../../utils/swal"
 
 const { REACT_APP_API_ENDPOINT } = process.env
 
@@ -34,8 +35,13 @@ export const Login = () => {
         })
             .then(response => response.json())
             .then(data => {
-                localStorage.setItem("token", data?.result?.token)
-                navigate("/", { replace: true })
+                if (data.status_code === 200) {
+                    localStorage.setItem("token", data?.result?.token)
+                    navigate("/", { replace: true })
+                }else{
+                    swal()
+                }
+
 
             })
     }

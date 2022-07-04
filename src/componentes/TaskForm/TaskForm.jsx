@@ -1,6 +1,8 @@
 import './TaskForm.css'
 import { useFormik } from "formik"
 import * as Yup from 'yup'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const { REACT_APP_API_ENDPOINT } = process.env
 
@@ -28,7 +30,7 @@ export const TaskForm = () => {
             .then((response) => response.json())
             .then(data =>{
                 resetForm()
-                alert("tu tarea se creo")
+                toast("Tu tarea se creo")
             }
                
             )
@@ -89,6 +91,7 @@ export const TaskForm = () => {
                     <button type='submit'>Crear</button>
                 </div>
             </form>
+            <ToastContainer/>
         </section>
     )
 }
