@@ -4,7 +4,7 @@ export const Header=()=>{
     const navigate=useNavigate()
 
     const HandleLogout=()=>{
-        localStorage.removeItem("logged");
+        localStorage.removeItem("token");
         navigate("/Login", {replace:true})
     }
     return (

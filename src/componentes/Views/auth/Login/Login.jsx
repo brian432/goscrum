@@ -1,46 +1,61 @@
 import { useFormik } from "formik"
-import {useNavigate, Link} from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
+import * as Yup from 'yup'
 import '../Auth.css'
+
+const { REACT_APP_API_ENDPOINT } = process.env
+
 export const Login = () => {
 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const initialValues = {
-        email: "",
+        userName: "",
         password: ""
     }
-    const validate = values => {
-        const errors = {}
-        if (!values.email) {
-            errors.email = "El email es requerido"
-        }
-        if (!values.password) {
-            errors.password = "El password es requerido"
-        }
 
-        return errors
-    }
+    const required = "* Campo obligatorio"
+
+    const validationSchema = Yup.object().shape({
+        userName: Yup.string().min(4, "Ingrese mas de 3 caracteres").required(required),
+        password: Yup.string().required(required)
+    })
 
     const onSubmit = () => {
-        localStorage.setItem("logged", "yes");
-        navigate("/", {replace:true})
+        fetch(`${REACT_APP_API_ENDPOINT}auth/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userName: values.userName,
+                password: values.password
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem("token", data?.result?.token)
+                navigate("/", { replace: true })
+
+            })
     }
 
-    const formik = useFormik({ initialValues, validate, onSubmit })
-    const { handleChange, handleSubmit, values, errors } = formik
+    const formik = useFormik({ initialValues, validationSchema, onSubmit })
+    const { handleChange, handleSubmit, values, errors, touched, handleBlur } = formik
 
     return (
         <div className="auth">
             <form onSubmit={handleSubmit}>
                 <h1>Iniciar sesion</h1>
                 <div>
-                    <label>Email</label>
+                    <label>Nombre de usuario</label>
                     <input
-                        name="email"
-                        type="email"
+                        name="userName"
+                        type="text"
                         onChange={handleChange}
-                        value={values.email} />
-                    {errors.email && <div>{errors.email}</div>}
+                        onBlur={handleBlur}
+                        value={values.userName} />
+                    {errors.userName && touched.userName && <div>{errors.userName}</div>}
                 </div>
                 <div>
                     <label>Contraseña</label>
@@ -48,8 +63,9 @@ export const Login = () => {
                         type="password"
                         name="password"
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         value={values.password} />
-                    {errors.password && <div>{errors.password}</div>}
+                    {errors.password && touched.password && <div>{errors.password}</div>}
                 </div>
                 <div>
                     <button type="submit">Enviar</button>

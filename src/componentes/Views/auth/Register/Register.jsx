@@ -13,6 +13,7 @@ export const Register = () => {
 
     const [data, setData] = useState();
     const navigate = useNavigate();
+
     useEffect(() => {
         fetch(`${REACT_APP_API_ENDPOINT}auth/data`)
             .then(response => response.json())
@@ -63,7 +64,13 @@ export const Register = () => {
                     region: values.region,
                 },
             }),
-        }).then((response) => response.json()).then(data => navigate("/registered/" + data?.result?.user?.teamID, { replace: true }))
+        })
+            .then((response) => response.json())
+            .then(data =>
+                navigate("/registered/" + data?.result?.user?.teamID, {
+                    replace: true
+                })
+            )
 
     }
 

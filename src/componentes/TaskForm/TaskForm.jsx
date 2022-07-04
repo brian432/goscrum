@@ -2,30 +2,49 @@ import './TaskForm.css'
 import { useFormik } from "formik"
 import * as Yup from 'yup'
 
+const { REACT_APP_API_ENDPOINT } = process.env
+
 export const TaskForm = () => {
 
     const initialValues = {
         title: "",
         status: "",
-        priority: "",
+        importance: "",
         description: ""
     }
 
 
     const onSubmit = () => {
-        alert("dsadas")
+        fetch(`${REACT_APP_API_ENDPOINT}task`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token")
+            },
+            body: JSON.stringify({
+                task: values
+            })
+        })
+            .then((response) => response.json())
+            .then(data =>{
+                resetForm()
+                alert("tu tarea se creo")
+            }
+               
+            )
     }
 
-    const required="* Campo obligatorio"
+    const required = "* Campo obligatorio"
 
     const validationSchema = Yup.object().shape({
-        title:Yup.string().min(6, "Ingrese mas de 5 caracteres").required(required),
-        status:Yup.string().required(required),
-        priority:Yup.string().required(required)
+        title: Yup.string().min(6, "Ingrese mas de 5 caracteres").required(required),
+        status: Yup.string().required(required),
+        importance: Yup.string().required(required),
+        description: Yup.string().required(required),
     })
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit })
-    const { handleChange, handleSubmit, errors, touched, handleBlur } = formik //errors para los manejar los errores, touched para mostrar un mensaje al salir de un campo sin completarlo
+    const { handleChange, handleSubmit, errors, touched, handleBlur, values, resetForm } = formik //errors para los manejar los errores, touched para mostrar un mensaje al salir de un campo sin completarlo
 
 
     return (
@@ -35,30 +54,37 @@ export const TaskForm = () => {
             <form onSubmit={handleSubmit}>
                 <div>
                     <div>
-                        <input name="title" onChange={handleChange} onBlur={handleBlur} placeholder="Título"/>
+                        <input name="title" value={values.title} onChange={handleChange} onBlur={handleBlur} placeholder="Título" />
                         {errors.title && touched.title && <span>{errors.title}</span>}
                     </div>
-                    
+
                     <div>
-                        <select name="status" onChange={handleChange} onBlur={handleBlur}>
+                        <select name="status" value={values.status} onChange={handleChange} onBlur={handleBlur}>
                             <option value="">Seleccionar opción</option>
-                            <option value="new">Nuevo</option>
-                            <option value="inProcess">En proceso</option>
-                            <option value="finished">Terminada</option>
+                            <option value="NEW">Nuevo</option>
+                            <option value="IN PROGRESS">En proceso</option>
+                            <option value="FINISHED">Terminada</option>
                         </select>
                         {errors.status && touched.status && <span>{errors.status}</span>}
-                    </div>   
-                    <div>
-                        <select name='priority' onChange={handleChange} onBlur={handleBlur}>
-                            <option value="">Seleccionar opción</option>
-                            <option value="low">Baja</option>
-                            <option value="medium">Media</option>
-                            <option value="high">Alta</option>
-                        </select>
-                        {errors.priority && touched.priority && <span>{errors.priority}</span>}
                     </div>
                     <div>
-                        <textarea name="description" onChange={handleChange} placeholder="Descripción" />
+                        <select name='importance' value={values.importance} onChange={handleChange} onBlur={handleBlur}>
+                            <option value="">Seleccionar opción</option>
+                            <option value="LOW">Baja</option>
+                            <option value="MEDIUM">Media</option>
+                            <option value="HIGH">Alta</option>
+                        </select>
+                        {errors.importance && touched.importance && <span>{errors.importance}</span>}
+                    </div>
+                    <div>
+                        <textarea
+                            name="description"
+                            value={values.description}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            placeholder="Descripción"
+                        />
+                        {errors.description && touched.description && <span>{errors.description}</span>}
                     </div>
                     <button type='submit'>Crear</button>
                 </div>
