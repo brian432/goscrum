@@ -12,3 +12,10 @@ header img{
 header div{
     cursor:pointer
 }
+
+.wrapper_rigth_header{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+

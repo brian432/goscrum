@@ -6,8 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const { REACT_APP_API_ENDPOINT } = process.env
 
-const { REACT_APP_API_ENDPOINT } = process.env
-
 export const TaskForm = () => {
 
     const initialValues = {
