@@ -5,6 +5,8 @@ import { Card } from "../../Card/Card"
 import { Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import debounce from "lodash.debounce";
+
 import { useEffect, useState } from "react"
 
 const { REACT_APP_API_ENDPOINT } = process.env
@@ -15,9 +17,12 @@ export const Tasks = () => {
     const [loading, setLoading] = useState(false)
     const [renderList, setRenderList] = useState(null)
     const [tasksFromWho, setTasksFromWho] = useState("ALL")
+    const [search, setSearch] = useState("")
+
+
     useEffect(() => {
         setLoading(true)
-        fetch(`${REACT_APP_API_ENDPOINT}task${tasksFromWho === "ME" ? "/me": ""}`, {
+        fetch(`${REACT_APP_API_ENDPOINT}task${tasksFromWho === "ME" ? "/me" : ""}`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + localStorage.getItem("token")
@@ -34,25 +39,23 @@ export const Tasks = () => {
             })
     }, [tasksFromWho])
 
+    useEffect(() => {
+        if (search)
+            setRenderList(list.filter(data => data.title.startsWith(search)))
+        else setRenderList(list)
+    }, [search])
+
+
+
     const renderAllCards = () => {
         return (
             renderList?.map(card => <Card key={card._id} card={card} />)
         )
     }
 
-    const renderNewCards = () => {
+    const renderColumnCards = (text) => {
         return (
-            renderList?.filter(data => data.status === "NEW").map(card => <Card key={card._id} card={card} />)
-        )
-    }
-    const renderInProgressCards = () => {
-        return (
-            renderList?.filter(data => data.status === "IN PROGRESS").map(card => <Card key={card._id} card={card} />)
-        )
-    }
-    const renderFinishedCards = () => {
-        return (
-            renderList?.filter(data => data.status === "FINISHED").map(card => <Card key={card._id} card={card} />)
+            renderList?.filter(data => data.status === text).map(card => <Card key={card._id} card={card} />)
         )
     }
 
@@ -63,6 +66,11 @@ export const Tasks = () => {
             setRenderList(list.filter(data => data.importance === event.currentTarget.value))
         }
     }
+
+    const handleSearch = debounce(event => {
+        setSearch(event?.target?.value)
+    }, 1000)
+
 
     return (
         <>
@@ -77,7 +85,7 @@ export const Tasks = () => {
                         <RadioGroup
                             row
                             aria-labelledby="demo-row-radio-buttons-group-label"
-                            onChange={(event)=> setTasksFromWho(event.currentTarget.value)}
+                            onChange={(event) => setTasksFromWho(event.currentTarget.value)}
                         >
                             <FormControlLabel
                                 value="ME"
@@ -91,6 +99,9 @@ export const Tasks = () => {
                             />
                         </RadioGroup>
                     </FormControl>
+                    <div>
+                        <input type="search" placeholder="Buscar por titulo..." onChange={handleSearch} />
+                    </div>
                     <select name='importance' onChange={handleChangeimportance}>
                         <option value="">Seleccionar opción</option>
                         <option value="ALL">Todas</option>
@@ -110,19 +121,19 @@ export const Tasks = () => {
                                         <div className="list">
                                             <h4>Nuevas</h4>
                                             {
-                                                renderNewCards()
+                                                renderColumnCards("NEW")
                                             }
                                         </div>
                                         <div className="list">
                                             <h4>En Progreso</h4>
                                             {
-                                                renderInProgressCards()
+                                                renderColumnCards("IN PROGRESS")
                                             }
                                         </div>
                                         <div className="list">
                                             <h4>Finalizadas</h4>
                                             {
-                                                renderFinishedCards()
+                                                renderColumnCards("FINISHED")
                                             }
                                         </div>
                                     </>
