@@ -4,7 +4,6 @@ import * as Yup from 'yup'
 import '../Auth.css'
 import { swal } from "../../../../utils/swal"
 
-
 const { REACT_APP_API_ENDPOINT } = process.env
 
 export const Login = () => {
@@ -42,7 +41,6 @@ export const Login = () => {
                 }else{
                     swal()
                 }
-
 
             })
     }
