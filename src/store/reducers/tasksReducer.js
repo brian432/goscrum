@@ -13,7 +13,6 @@ export const tasksReducer = (state = initialState, action) => {
             }
         case 'TASKS_SUCCESS':
             return {
-                ...state,
                 loading: false,
                 tasks: action.payload,
                 error:[]
@@ -24,8 +23,6 @@ export const tasksReducer = (state = initialState, action) => {
                 error:action.payload,
                 tasks:[]
             }
-
-
         default:
             return state
     }

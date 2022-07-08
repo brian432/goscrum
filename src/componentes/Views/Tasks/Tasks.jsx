@@ -1,7 +1,10 @@
 import { Header } from "../../Header/Header"
 import { TaskForm } from "../../TaskForm/TaskForm"
 import './Tasks.css'
+import { useSelector, useDispatch } from "react-redux"
+
 import { Card } from "../../Card/Card"
+import { getTasks } from "../../../store/actions/tasksActions"
 import { Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -9,35 +12,30 @@ import debounce from "lodash.debounce";
 
 import { useEffect, useState } from "react"
 
-const { REACT_APP_API_ENDPOINT } = process.env
 
 export const Tasks = () => {
 
+    const dispatch = useDispatch() //importamos dispatch
+    const { loading, error, tasks } = useSelector(state => { // traemos el estado del store mediante useSelector() y desestructutamos el estado con sus propiedades
+        return state.tasksReducer
+    })
+
     const [list, setList] = useState(null)
-    const [loading, setLoading] = useState(false)
     const [renderList, setRenderList] = useState(null)
     const [tasksFromWho, setTasksFromWho] = useState("ALL")
     const [search, setSearch] = useState("")
 
 
     useEffect(() => {
-        setLoading(true)
-        fetch(`${REACT_APP_API_ENDPOINT}task${tasksFromWho === "ME" ? "/me" : ""}`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + localStorage.getItem("token")
-            },
-
-        })
-            .then((response) => response.json())
-            .then(data => {
-                setRenderList(data.result)
-                setList(data.result)
-                setTimeout(() => {
-                    setLoading(false) //agregamos esta funcion para retrasar la carga de data.result y asi poder ver el efecto del reloader <skeleton />
-                }, 1000)
-            })
+        dispatch(getTasks(tasksFromWho === "ME" ? "/me" : "")) //cuando se monte el componente, enviamos una accion al reducer mediante dispatch
     }, [tasksFromWho])
+
+    useEffect(() => { //Cuando se monte el componente, evaluara si tasks existe y si existe, actualizara el estado local mediante setList() y setRenderListe() para luego mapear los datos y renderizar el componente
+        if (tasks?.length) {
+            setList(tasks)
+            setRenderList(tasks)
+        }   
+    }, [tasks])
 
     useEffect(() => {
         if (search)
@@ -45,7 +43,7 @@ export const Tasks = () => {
         else setRenderList(list)
     }, [search])
 
-
+    if(error) return <div>Hay un error</div>
 
     const renderAllCards = () => {
         return (
