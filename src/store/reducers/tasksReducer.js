@@ -4,6 +4,26 @@ const initialState = {
     error: []
 }
 
-export const tasksReducer = (state = initialState) => {
-    return state
+export const tasksReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case 'TASKS_REQUEST':
+            return {
+                ...state,
+                loading: true,
+            }
+        case 'TASKS_SUCCESS':
+            return {
+                loading: false,
+                tasks: action.payload,
+                error:[]
+            }
+        case 'TASKS_FAILURE':
+            return {
+                loading: false,
+                error:action.payload,
+                tasks:[]
+            }
+        default:
+            return state
+    }
 }
