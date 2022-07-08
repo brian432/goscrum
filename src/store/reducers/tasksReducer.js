@@ -1,7 +1,7 @@
 const initialState = {
     loading: false,
     tasks: [],
-    error: []
+    error: ""
 }
 
 export const tasksReducer = (state = initialState, action) => {
@@ -15,7 +15,7 @@ export const tasksReducer = (state = initialState, action) => {
             return {
                 loading: false,
                 tasks: action.payload,
-                error:[]
+                error:""
             }
         case 'TASKS_FAILURE':
             return {
