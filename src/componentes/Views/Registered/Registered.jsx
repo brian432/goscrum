@@ -8,5 +8,4 @@ const Registered = () => {
         <div className="container">El teamID de tu equipo es: {teamID}</div>
     )
 }
-
 export default Registered;
