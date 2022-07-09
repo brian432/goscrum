@@ -4,7 +4,7 @@ import './Tasks.css'
 import { useSelector, useDispatch } from "react-redux"
 
 import { Card } from "../../Card/Card"
-import { getTasks } from "../../../store/actions/tasksActions"
+import { getTasks, deleteTasks, editTaskStatusOrImportance } from "../../../store/actions/tasksActions"
 import { Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -28,13 +28,13 @@ export const Tasks = () => {
 
     useEffect(() => {
         dispatch(getTasks(tasksFromWho === "ME" ? "/me" : "")) //cuando se monte el componente, enviamos una accion al reducer mediante dispatch
-    }, [tasksFromWho])
+    }, [tasksFromWho, dispatch])
 
     useEffect(() => { //Cuando se monte el componente, evaluara si tasks existe y si existe, actualizara el estado local mediante setList() y setRenderListe() para luego mapear los datos y renderizar el componente
         if (tasks?.length) {
             setList(tasks)
             setRenderList(tasks)
-        }   
+        }
     }, [tasks])
 
     useEffect(() => {
@@ -43,7 +43,6 @@ export const Tasks = () => {
         else setRenderList(list)
     }, [search])
 
-    if(error) return <div>Hay un error</div>
 
     const renderAllCards = () => {
         return (
@@ -53,7 +52,13 @@ export const Tasks = () => {
 
     const renderColumnCards = (text) => {
         return (
-            renderList?.filter(data => data.status === text).map(card => <Card key={card._id} card={card} />)
+            renderList?.filter(data => data.status === text).map(card =>
+                <Card
+                    key={card._id}
+                    card={card}
+                    deleteCard={handleDelete}
+                    editCardButton={handleEditCardButton}
+                />)
         )
     }
 
@@ -69,6 +74,12 @@ export const Tasks = () => {
         setSearch(event?.target?.value)
     }, 1000)
 
+    const handleDelete = (id) => dispatch(deleteTasks(id))
+
+    const handleEditCardButton = (card, change) => dispatch(editTaskStatusOrImportance(card, change))
+
+
+    if (error) return <div>Hay un error</div>
 
     return (
         <>

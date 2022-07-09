@@ -1,14 +1,18 @@
 import { useState } from "react"
 
 export const Card = ({
+    deleteCard,
+    editCardButton,
     card: {
+        _id,
         createdAt,
         description,
         importance,
         status,
         title,
         user: { userName }
-    }
+    },
+    card //lo volvemos a nombrar a card para utilizarlo como un objeto completo y no desestructurado
 }) => {
     const [showMore, setShowMore] = useState(false)
 
@@ -23,14 +27,14 @@ export const Card = ({
     return (
 
         <div className="card">
-            <div className="close">X</div>
+            <div className="close" onClick={() => deleteCard(_id)}>X</div>
             <h3>{title}</h3>
             <h6>{dateTime}</h6>
             <h5>{userName}</h5>
-            <button type="button">{status.toLowerCase()}</button>
-            <button type="button">{importance.toLowerCase()}</button>
-            {!showMore &&<p>{limitString(description).string}</p>}
-            {showMore && <><p>{description}</p><button type="button" onClick={()=>setShowMore(false)}>Ver menos</button></>}
+            <button type="button" onClick={() => editCardButton(card, "status")}>{status.toLowerCase()}</button>
+            <button type="button" onClick={() => editCardButton(card, "importance")}>{importance.toLowerCase()}</button>
+            {!showMore && <p>{limitString(description).string}</p>}
+            {showMore && <><p>{description}</p><button type="button" onClick={() => setShowMore(false)}>Ver menos</button></>}
             {!showMore && limitString(description).addButton &&
                 <button type="button" onClick={() => setShowMore(true)}>
                     Ver más
