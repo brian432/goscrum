@@ -26,6 +26,9 @@
 .task-form form div div{
     flex: 1;
 }
+.primaryColor{
+    color:var(--global-primary-color);
+}
 
 .task-form input,
 .task-form select,

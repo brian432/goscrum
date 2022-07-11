@@ -60,8 +60,9 @@ export const Login = () => {
                         type="text"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.userName} />
-                    {errors.userName && touched.userName && <div>{errors.userName}</div>}
+                        value={values.userName} 
+                        className={errors.userName && touched.userName && "campoObligatorio"}/>
+                    {errors.userName && touched.userName && <div className="primaryColor">{errors.userName}</div>}
                 </div>
                 <div>
                     <label>Contraseña</label>
@@ -70,8 +71,9 @@ export const Login = () => {
                         name="password"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.password} />
-                    {errors.password && touched.password && <div>{errors.password}</div>}
+                        value={values.password} 
+                        className={errors.password && touched.password && "campoObligatorio"}/>
+                    {errors.password && touched.password && <div className="primaryColor">{errors.password}</div>}
                 </div>
                 <div>
                     <button type="submit">Enviar</button>

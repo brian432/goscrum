@@ -33,9 +33,35 @@ input, button{
     padding: 5px;
 }
 
+button{
+    transition: all .3s ease-out;
+    background-color:var(--global-primary-color);
+    border-radius: var(--global-radius);
+    border: 0;
+    color: white;
+    padding: 10px !important;
+    font-size: 16px;
+    cursor: pointer;
+    justify-content: center;
+}
+button:hover{
+    color: var(--global-primary-color);
+    border-radius: var(--global-radius);
+    border: 1px solid var(--global-primary-color);
+    background-color: white;
+    padding: 10px !important;
+}
+
+.campoObligatorio{
+    border: 1px solid var(--global-primary-color);
+}
+.primaryColor{
+    color:var(--global-primary-color);
+}
+
 @media screen and (min-width: 600px) {
     form{
-        border: 1px solid;
+        border: 1px solid var(--global-primary-color);
         width: 400px;
         border-radius: 5px;
         padding: 1rem;

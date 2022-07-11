@@ -47,7 +47,7 @@ export const TaskForm = () => {
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit })
     const { handleChange, handleSubmit, errors, touched, handleBlur, values, resetForm } = formik //errors para los manejar los errores, touched para mostrar un mensaje al salir de un campo sin completarlo
-
+    
 
     return (
         <section className="task-form">
@@ -57,17 +57,17 @@ export const TaskForm = () => {
                 <div>
                     <div>
                         <input name="title" value={values.title} onChange={handleChange} onBlur={handleBlur} placeholder="Título" />
-                        {errors.title && touched.title && <span>{errors.title}</span>}
+                        {errors.title && touched.title && <span className='primaryColor'>{errors.title}</span>}
                     </div>
 
                     <div>
-                        <select name="status" value={values.status} onChange={handleChange} onBlur={handleBlur}>
+                        <select name="status" value={values.status} onChange={handleChange} onBlur={handleBlur} >
                             <option value="">Seleccionar opción</option>
                             <option value="NEW">Nuevo</option>
                             <option value="IN PROGRESS">En proceso</option>
                             <option value="FINISHED">Terminada</option>
                         </select>
-                        {errors.status && touched.status && <span>{errors.status}</span>}
+                        {errors.status && touched.status && <span className='primaryColor'>{errors.status}</span>}
                     </div>
                     <div>
                         <select name='importance' value={values.importance} onChange={handleChange} onBlur={handleBlur}>
@@ -76,7 +76,7 @@ export const TaskForm = () => {
                             <option value="MEDIUM">Media</option>
                             <option value="HIGH">Alta</option>
                         </select>
-                        {errors.importance && touched.importance && <span>{errors.importance}</span>}
+                        {errors.importance && touched.importance && <span className='primaryColor'>{errors.importance}</span>}
                     </div>
                     <div>
                         <textarea
@@ -86,7 +86,7 @@ export const TaskForm = () => {
                             onBlur={handleBlur}
                             placeholder="Descripción"
                         />
-                        {errors.description && touched.description && <span>{errors.description}</span>}
+                        {errors.description && touched.description && <span className='primaryColor'>{errors.description}</span>}
                     </div>
                     <button type='submit'>Crear</button>
                 </div>

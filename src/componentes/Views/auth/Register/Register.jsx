@@ -89,8 +89,9 @@ export const Register = () => {
                         type="text"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.userName} />
-                    {errors.userName && touched.userName && <span>{errors.userName}</span>}
+                        value={values.userName} 
+                        className={errors.userName && touched.userName && "campoObligatorio"}/>
+                    {errors.userName && touched.userName && <span className="primaryColor">{errors.userName}</span>}
                 </div>
                 <div>
                     <label>Email</label>
@@ -99,8 +100,9 @@ export const Register = () => {
                         type="email"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.email} />
-                    {errors.email && touched.email && <span>{errors.email}</span>}
+                        value={values.email} 
+                        className={errors.email && touched.email && "campoObligatorio"}/>
+                    {errors.email && touched.email && <span className="primaryColor">{errors.email}</span>}
                 </div>
                 <div>
                     <label>Contraseña</label>
@@ -109,8 +111,9 @@ export const Register = () => {
                         name="password"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.password} />
-                    {errors.password && touched.password && <span>{errors.password}</span>}
+                        value={values.password}
+                        className={errors.password && touched.password && "campoObligatorio"} />
+                    {errors.password && touched.password && <span className="primaryColor">{errors.password}</span>}
                 </div>
                 <FormControlLabel
                     control={
@@ -153,7 +156,7 @@ export const Register = () => {
                                 </option>)
                         }
                     </select>
-                    {errors.role && touched.role && <span>{errors.role}</span>}
+                    {errors.role && touched.role && <span className="primaryColor">{errors.role}</span>}
                 </div>
                 <div>
                     <label>Continente</label>
@@ -171,7 +174,7 @@ export const Register = () => {
                                 </option>)
                         }
                     </select>
-                    {errors.continent && touched.continent && <span>{errors.continent}</span>}
+                    {errors.continent && touched.continent && <span className="primaryColor">{errors.continent}</span>}
                 </div>
                 {values.continent === "America" && (
                     <div>
@@ -180,7 +183,7 @@ export const Register = () => {
                             name="region"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.region} >
+                            value={values.region}>
                             <option value="">Seleccionar region...</option>
                             {
                                 data?.region?.map(option =>
@@ -189,7 +192,7 @@ export const Register = () => {
                                     </option>)
                             }
                         </select>
-                        {errors.region && touched.region && <span>{errors.region}</span>}
+                        {errors.region && touched.region && <span className="primaryColor">{errors.region}</span>}
                     </div>
                 )}
 
