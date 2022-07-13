@@ -4,11 +4,25 @@ import * as Yup from 'yup'
 import '../Auth.css'
 import { swal } from "../../../../utils/swal"
 
-const { REACT_APP_API_ENDPOINT } = process.env
+import { localStorageSaved, loginFailed } from "../../../../store/actions/loginActions"
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect } from "react"
 
 export const Login = () => {
 
+    const { login } = useSelector(state => { return state.loginReducer })
     const navigate = useNavigate();
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if(login === true){
+            navigate("/", { replace: true })//en el reducer, almacenar el token en una variable y luego almacenar el localStorage arriba de navigate
+        }
+        else if(login === false){
+            swal()
+            dispatch(loginFailed())   
+        }
+    }, [login])
 
     const initialValues = {
         userName: "",
@@ -23,28 +37,9 @@ export const Login = () => {
     })
 
     const onSubmit = () => {
-        fetch(`${REACT_APP_API_ENDPOINT}auth/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                userName: values.userName,
-                password: values.password
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status_code === 200) {
-                    localStorage.setItem("token", data?.result?.token)
-                    localStorage.setItem("userName", data?.result?.user?.userName)
-                    navigate("/", { replace: true })
-                }else{
-                    swal()
-                }
-
-            })
+        dispatch(localStorageSaved(values.userName, values.password))
     }
+
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit })
     const { handleChange, handleSubmit, values, errors, touched, handleBlur } = formik
@@ -60,8 +55,8 @@ export const Login = () => {
                         type="text"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.userName} 
-                        className={errors.userName && touched.userName && "campoObligatorio"}/>
+                        value={values.userName}
+                        className={errors.userName && touched.userName && "campoObligatorio"} />
                     {errors.userName && touched.userName && <div className="primaryColor">{errors.userName}</div>}
                 </div>
                 <div>
@@ -71,8 +66,8 @@ export const Login = () => {
                         name="password"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.password} 
-                        className={errors.password && touched.password && "campoObligatorio"}/>
+                        value={values.password}
+                        className={errors.password && touched.password && "campoObligatorio"} />
                     {errors.password && touched.password && <div className="primaryColor">{errors.password}</div>}
                 </div>
                 <div>
