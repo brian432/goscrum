@@ -31,8 +31,14 @@ export const localStorageSaved = (userName, password) => dispatch => {
         })
 }
 
-export const loginFailed = () => dispatch => {
+export const loginIncorrect = () => dispatch => {
     dispatch({
-        type: "LOGIN_FAILED"
+        type: "LOGIN_INCORRECT"
+    })
+}
+
+export const logout = () => dispatch =>{
+    dispatch({
+        type: "LOGOUT"
     })
 }

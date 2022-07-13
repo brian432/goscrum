@@ -1,6 +1,6 @@
 import './Header.css'
 import { useNavigate } from 'react-router-dom';
-import { loginFailed } from '../../store/actions/loginActions';
+import { logout } from '../../store/actions/loginActions';
 
 import { useSelector, useDispatch } from "react-redux"
 
@@ -8,19 +8,13 @@ export const Header = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const { tasks } = useSelector(state => { // traemos el estado del store mediante useSelector() y desestructutamos el estado con sus propiedades
+    const { tasks } = useSelector(state => { 
         return state.tasksReducer
-    })
-    const { login } = useSelector(state => {
-        return state.loginReducer
     })
 
     const HandleLogout = () => {
-        localStorage.removeItem("token")
-        localStorage.removeItem("userName")
-        dispatch(loginFailed())
+        dispatch(logout())
         navigate("/Login", { replace: true })
-        
     }
     return (
         <header>

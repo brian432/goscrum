@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import '../Auth.css'
 import { swal } from "../../../../utils/swal"
 
-import { localStorageSaved, loginFailed } from "../../../../store/actions/loginActions"
+import { localStorageSaved, loginIncorrect } from "../../../../store/actions/loginActions"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 
@@ -20,7 +20,7 @@ export const Login = () => {
         }
         else if(login === false){
             swal()
-            dispatch(loginFailed())   
+            dispatch(loginIncorrect())   
         }
     }, [login])
 
