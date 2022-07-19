@@ -16,6 +16,7 @@ import { useEffect, useState } from "react"
 export const Tasks = () => {
 
     const dispatch = useDispatch() //importamos dispatch
+
     const { taskCreated } = useSelector(state => {
         return state.taskFormReducer
     })
@@ -28,7 +29,7 @@ export const Tasks = () => {
     const [tasksFromWho, setTasksFromWho] = useState("ALL")
     const [search, setSearch] = useState("")
 
-
+    
     useEffect(() => {
         dispatch(getTasks(tasksFromWho === "ME" ? "/me" : "")) //cuando se monte el componente, enviamos una accion al reducer mediante dispatch
     }, [tasksFromWho, dispatch, taskCreated])
@@ -73,9 +74,9 @@ export const Tasks = () => {
         setSearch(event?.target?.value)
     }, 1000)
 
-    const handleDelete = (id) => dispatch(deleteTasks(id))
+    const handleDelete = (id) => dispatch(deleteTasks(id, tasksFromWho))
 
-    const handleEditCardButton = (card, change) => dispatch(editTaskStatusOrImportance(card, change))
+    const handleEditCardButton = (card, change) => dispatch(editTaskStatusOrImportance(card, change, tasksFromWho))
 
 
     if (error) return <div>Hay un error</div>
@@ -148,7 +149,6 @@ export const Tasks = () => {
                                         </div>
                                     </>
                         }
-
                     </div>
 
                 </section>

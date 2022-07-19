@@ -3,13 +3,14 @@ const initialValues = {
 }
 
 export const loginReducer = (state = initialValues, action) => {
-
     switch (action.type) {
         case "LOGIN_SUCCES":
             localStorage.setItem("token", action.payload.result.token)
             localStorage.setItem("userName", action.payload.result.user.userName)
+            localStorage.setItem("teamID", action.payload.result.user.teamID)
             return {
                 login: true,
+                teamID: action.payload.result.user.teamID
             }
         case "LOGIN_FAILURE":
             return {
@@ -22,6 +23,7 @@ export const loginReducer = (state = initialValues, action) => {
         case "LOGOUT":
             localStorage.removeItem("token")
             localStorage.removeItem("userName")
+            localStorage.removeItem("teamID")
             return {
                 login: null
             }

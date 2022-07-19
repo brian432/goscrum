@@ -21,7 +21,8 @@ export const switchRegister = () => ({
 export const getDataSelect = () => dispatch => {
     fetch(`${REACT_APP_API_ENDPOINT}auth/data`)
         .then(response => response.json())
-        .then(data => dispatch(dataSuccess(data.result)))
+        .then(data => {dispatch(dataSuccess(data.result))
+        })
 }
 
 export const postRegister = (values, teamID) => dispatch => {

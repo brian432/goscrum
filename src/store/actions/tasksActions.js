@@ -13,7 +13,6 @@ export const tasksFailure = error => ({
 })
 
 
-
 export const getTasks = path => dispatch => {
     dispatch(tasksRequest())
     fetch(`${REACT_APP_API_ENDPOINT}task${path}`, {
@@ -22,16 +21,14 @@ export const getTasks = path => dispatch => {
             Authorization: "Bearer " + localStorage.getItem("token")
         }
     }).then(response => response.json())
-        .then(data => { 
-            console.log(data);
-            dispatch(tasksSuccess(data.result)) })
+        .then(data => {
+            dispatch(tasksSuccess(data.result))
+        })
         .catch(error => { dispatch(tasksFailure(error)) })
-    
+
 }
 
-
-
-export const deleteTasks = id => dispatch => { //cada card creada con el formulario, tiene una id, si le pasamos esa id a una peticion con el metodo "DELETE" esta eliminara ese objeto json de la base de dato.
+export const deleteTasks = (id, tasksFromWho) => dispatch => { //cada card creada con el formulario, tiene una id, si le pasamos esa id a una peticion con el metodo "DELETE" esta eliminara ese objeto json de la base de dato.
     dispatch(tasksRequest())
     fetch(`${REACT_APP_API_ENDPOINT}task/${id}`, {
         method: "DELETE",
@@ -40,13 +37,11 @@ export const deleteTasks = id => dispatch => { //cada card creada con el formula
             Authorization: "Bearer " + localStorage.getItem("token")
         }
     }).then(response => response.json())
-        .then(() => dispatch(getTasks(""))) //Una vez realizada la eliminacion de la card, then llama a la accion getTasks que devolver todas las card menos la eliminada
+        .then(() => dispatch(getTasks(tasksFromWho === "ME" ? "/me" : ""))) //Una vez realizada la eliminacion de la card, then llama a la accion getTasks que devolver todas las card menos la eliminada
         .catch(error => { dispatch(tasksFailure(error)) })
 }
 
-
-
-export const editTaskStatusOrImportance = (data, change) => dispatch => {
+export const editTaskStatusOrImportance = (data, change, tasksFromWho) => dispatch => {
     const statusArray = ["NEW", "IN PROGRESS", "FINISHED"]
     const importanceArray = ["LOW", "MEDIUM", "HIGH"]
 
@@ -69,13 +64,13 @@ export const editTaskStatusOrImportance = (data, change) => dispatch => {
         body: JSON.stringify({
             task: {
                 title: data.title,
-                importance: change === "importance" ? importanceArray[newImportanceIndex]: data.importance,
-                status: change === "status" ? statusArray[newStatusIndex]: data.status,
+                importance: change === "importance" ? importanceArray[newImportanceIndex] : data.importance,
+                status: change === "status" ? statusArray[newStatusIndex] : data.status,
                 description: data.description,
             },
         })
     })
         .then(response => response.json())
-        .then(data => dispatch(getTasks("")))
+        .then(data => dispatch(getTasks(tasksFromWho === "ME" ? "/me" : "")))
         .catch(error => dispatch(tasksFailure(error)))
 }

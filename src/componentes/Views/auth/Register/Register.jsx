@@ -12,19 +12,27 @@ import { getDataSelect, postRegister, switchRegister } from "../../../../store/a
 
 export const Register = () => {
 
-    const { data, register, teamID } = useSelector(state => { return state.registerReducer })
+    const { data, register } = useSelector(state => { return state.registerReducer })
     const dispatch = useDispatch()
     const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(getDataSelect())
         if (register) {
-            navigate("/registered/" + teamID, {
+            dispatch(switchRegister())
+            Swal.fire({
+                title: 'Usuario creado correctamente',
+                width: "400px",
+                timer: 10000,
+                timerProgressBar: true,
+                confirmButtonText: 'Aceptar'
+            })
+            navigate("/", {
                 replace: true
             })
         } else if (register === false) {
             Swal.fire({
-                title: 'Conflicto al registrar el usuario',
+                title: 'El usuario o el email ya estan registrados',
                 text: 'Intentelo nuevamente',
                 width: "400px",
                 timer: 10000,
@@ -181,9 +189,11 @@ export const Register = () => {
                             <option value="">Seleccionar region...</option>
                             {
                                 data?.region?.map(option =>
-                                    <option value={option} key={option}>
-                                        {option}
-                                    </option>)
+                                    option === "America del Norte" ? null :
+                                        <option value={option === "Brasil" ? "Brazil" : option} key={option}>
+                                            {option}
+                                        </option>
+                                )
                             }
                         </select>
                         {errors.region && touched.region && <span className="primaryColor">{errors.region}</span>}

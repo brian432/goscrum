@@ -3,7 +3,6 @@ import { Route, Routes, Navigate, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Login } from './componentes/Views/auth/Login/Login'
 import { Register } from './componentes/Views/auth/Register/Register'
-import Registered from './componentes/Views/Registered/Registered'
 import { Tasks } from './componentes/Views/Tasks/Tasks'
 import './App.css'
 
@@ -57,20 +56,6 @@ export const App = () => {
                             variants={pageTransition}
                         >
                             <Login />
-                        </motion.div>
-                    }
-                />
-                <Route
-                    path="/registered/:teamID"
-                    element={
-                        <motion.div
-                            className="page"
-                            initial="out"
-                            animate="in"
-                            exit="out"
-                            variants={pageTransition}
-                        >
-                            <Registered />
                         </motion.div>
                     }
                 />

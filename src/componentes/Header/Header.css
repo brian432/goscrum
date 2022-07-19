@@ -1,15 +1,25 @@
 header{
     box-sizing: 0 2px 5px rgb(155, 155, 155);
-    display: flex;
-    justify-content: space-between;
     padding: 12px 15px;
 }
-
+header .container-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    
+}
+header button{
+    padding: 5px!important;
+}
+header button:hover{
+    padding: 5px!important;
+}
 header img{
     width:90px;
 }
 
-header div{
+.logout{
     cursor:pointer
 }
 
