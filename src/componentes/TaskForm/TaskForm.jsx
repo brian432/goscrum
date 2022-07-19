@@ -55,7 +55,6 @@ export const TaskForm = () => {
                         <input name="title" value={values.title} onChange={handleChange} onBlur={handleBlur} placeholder="Título" />
                         {errors.title && touched.title && <span className='primaryColor'>{errors.title}</span>}
                     </div>
-
                     <div>
                         <select name="status" value={values.status} onChange={handleChange} onBlur={handleBlur} >
                             <option value="">Seleccionar opción</option>

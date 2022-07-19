@@ -49,13 +49,6 @@ export const Tasks = () => {
         else setRenderList(list)
     }, [search])
 
-
-    const renderAllCards = () => {
-        return (
-            renderList?.map(card => <Card key={card._id} card={card} />)
-        )
-    }
-
     const renderColumnCards = (text) => {
         return (
             renderList?.filter(data => data.status === text).map(card =>

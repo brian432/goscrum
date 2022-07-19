@@ -29,7 +29,6 @@
 .primaryColor{
     color:var(--global-primary-color);
 }
-
 .task-form input,
 .task-form select,
 .task-form textarea{
@@ -46,7 +45,6 @@
     width: 100%;
     box-sizing: border-box;
 }
-
 .task-form textarea{
     min-height: 140px;
 }
@@ -70,4 +68,8 @@
     background-color: white;
     padding: 10px !important;
 }
-
+@media (min-width:900px){
+    .task-form form{
+        border: 0px solid;
+    }
+}

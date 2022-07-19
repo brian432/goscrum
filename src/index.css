@@ -1,8 +1,9 @@
 :root{
-    --global-primary-color:#ff452b;
-    --global-bg-color-soft:#fafafa;
+    --global-primary-color:#A5C9CA;
+    --global-button-color:#395B64;
+    --global-bg-color-soft:#E7F6F2;
     --global-radius:8px;
-    --global-border:0.5px 0px solid #e9e9e9;
+    --global-border:0.5px solid #e9e9e9;
 }
 
 body{
