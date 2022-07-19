@@ -22,8 +22,11 @@ export const getTasks = path => dispatch => {
             Authorization: "Bearer " + localStorage.getItem("token")
         }
     }).then(response => response.json())
-        .then(data => { dispatch(tasksSuccess(data.result)) })
+        .then(data => { 
+            console.log(data);
+            dispatch(tasksSuccess(data.result)) })
         .catch(error => { dispatch(tasksFailure(error)) })
+    
 }
 
 
