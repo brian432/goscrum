@@ -1,9 +1,9 @@
 import './Header.css'
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../store/actions/loginActions';
-
 import { useSelector, useDispatch } from "react-redux"
 import { useState } from 'react';
+import logo from './logo.png'
 
 export const Header = () => {
     const navigate = useNavigate()
@@ -17,10 +17,13 @@ export const Header = () => {
         dispatch(logout())
         navigate("/Login", { replace: true })
     }
+    console.log(logo);
     return (
         <header>
             <div className='container-header'>
-                <span>Go Scrum</span>
+                <div className='div-img'>
+                    <img src={logo} alt="logo"/>
+                </div>
                 <div className='wrapper_rigth_header'>
                     <div>Tareas creadas: {tasks?.length}</div>
                     <div>{localStorage.getItem("userName")}</div> {/*Cuando iniciamos sesion en el componente login, creamos un item en localStorage de la siguiente maner localStorage.setItem("userName", variableQueAlmacenaUserName)*/}
