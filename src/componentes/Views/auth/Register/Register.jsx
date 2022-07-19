@@ -1,24 +1,41 @@
 import { useFormik } from "formik"
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 import * as Yup from 'yup'
 import { Switch, FormControlLabel } from "@mui/material"
 import { v4 as uuidv4 } from 'uuid'
+import Swal from "sweetalert2"
 import '../Auth.css'
-
-const { REACT_APP_API_ENDPOINT } = process.env
+import { useDispatch, useSelector } from "react-redux"
+import { getDataSelect, postRegister, switchRegister } from "../../../../store/actions/registerActions"
 
 export const Register = () => {
 
-    const [data, setData] = useState();
+    const { data, register, teamID } = useSelector(state => { return state.registerReducer })
+    const dispatch = useDispatch()
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`${REACT_APP_API_ENDPOINT}auth/data`)
-            .then(response => response.json())
-            .then(data => setData(data.result))
-    }, [])
+        dispatch(getDataSelect())
+        if (register) {
+            navigate("/registered/" + teamID, {
+                replace: true
+            })
+        } else if (register === false) {
+            Swal.fire({
+                title: 'Conflicto al registrar el usuario',
+                text: 'Intentelo nuevamente',
+                width: "400px",
+                timer: 10000,
+                timerProgressBar: true,
+                confirmButtonText: 'Aceptar'
+            })
+            resetForm()
+            dispatch(switchRegister())
+        }
+    }, [register])
+
     const initialValues = {
         userName: "",
         password: "",
@@ -48,35 +65,12 @@ export const Register = () => {
 
     const onSubmit = () => {
         const teamID = !values.teamID ? uuidv4() : values.teamID
-        fetch(`${REACT_APP_API_ENDPOINT}auth/register`, { //Recordar que al probar la api, siempre cambiar el nombre de usuario y el email porque sino el post request tirara un error
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                user: {
-                    userName: values.userName,
-                    password: values.password,
-                    email: values.email,
-                    teamID,
-                    role: values.role,
-                    continent: values.continent,
-                    region: values.region,
-                },
-            }),
-        })
-            .then((response) => response.json())
-            .then(data =>
-                navigate("/registered/" + data?.result?.user?.teamID, {
-                    replace: true
-                })
-            )
-
+        dispatch(postRegister(values, teamID))
     }
 
 
     const formik = useFormik({ initialValues, onSubmit, validationSchema })
-    const { handleChange, handleSubmit, values, errors, touched, handleBlur, setFieldValue } = formik
+    const { handleChange, handleSubmit, values, errors, touched, handleBlur, setFieldValue, resetForm } = formik
 
     return (
         <div className="auth">
@@ -89,8 +83,8 @@ export const Register = () => {
                         type="text"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.userName} 
-                        className={errors.userName && touched.userName && "campoObligatorio"}/>
+                        value={values.userName}
+                        className={errors.userName && touched.userName && "campoObligatorio"} />
                     {errors.userName && touched.userName && <span className="primaryColor">{errors.userName}</span>}
                 </div>
                 <div>
@@ -100,8 +94,8 @@ export const Register = () => {
                         type="email"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.email} 
-                        className={errors.email && touched.email && "campoObligatorio"}/>
+                        value={values.email}
+                        className={errors.email && touched.email && "campoObligatorio"} />
                     {errors.email && touched.email && <span className="primaryColor">{errors.email}</span>}
                 </div>
                 <div>

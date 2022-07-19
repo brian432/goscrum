@@ -25,6 +25,7 @@ export const loginReducer = (state = initialValues, action) => {
             return {
                 login: null
             }
+        default:
+            return state
     }
-    return state
 }

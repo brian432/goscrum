@@ -4,9 +4,22 @@ import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const { REACT_APP_API_ENDPOINT } = process.env
+import { useSelector, useDispatch } from 'react-redux';
+import { postTask, switchTaskCreated } from '../../store/actions/taskFormActions';
+import { useEffect } from 'react';
 
 export const TaskForm = () => {
+
+    const dispatch = useDispatch()
+    const  {taskCreated}  = useSelector(state => { return state.taskFormReducer })
+
+    useEffect(() => {
+        if (taskCreated) { //Si la tarea se creo, taskCreated === true, cuando esto sucede, reseteamos el formulario, creamos un alerta con toast y volvemos a taskCreated === null porque si no lo hacemos, la constante quedara en true y al volverse a crear una tarea, el efecto secundario esperado no ocurrira porque taskCreated no cambia su valor 
+            resetForm()
+            toast("Tu tarea se creo")
+            dispatch(switchTaskCreated())
+        }
+    }, [taskCreated])
 
     const initialValues = {
         title: "",
@@ -15,25 +28,8 @@ export const TaskForm = () => {
         description: ""
     }
 
-
     const onSubmit = () => {
-        fetch(`${REACT_APP_API_ENDPOINT}task`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + localStorage.getItem("token")
-            },
-            body: JSON.stringify({
-                task: values
-            })
-        })
-            .then((response) => response.json())
-            .then(data =>{
-                resetForm()
-                toast("Tu tarea se creo")
-            }
-               
-            )
+        dispatch(postTask(values))
     }
 
     const required = "* Campo obligatorio"
@@ -47,7 +43,7 @@ export const TaskForm = () => {
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit })
     const { handleChange, handleSubmit, errors, touched, handleBlur, values, resetForm } = formik //errors para los manejar los errores, touched para mostrar un mensaje al salir de un campo sin completarlo
-    
+
 
     return (
         <section className="task-form">
@@ -91,7 +87,7 @@ export const TaskForm = () => {
                     <button type='submit'>Crear</button>
                 </div>
             </form>
-            <ToastContainer/>
+            <ToastContainer />
         </section>
     )
 }
