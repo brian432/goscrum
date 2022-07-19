@@ -16,7 +16,7 @@ import { useEffect, useState } from "react"
 export const Tasks = () => {
 
     const dispatch = useDispatch() //importamos dispatch
-    const { taskCreated } = useSelector(state=>{
+    const { taskCreated } = useSelector(state => {
         return state.taskFormReducer
     })
     const { loading, error, tasks } = useSelector(state => { // traemos el estado del store mediante useSelector() y desestructutamos el estado con sus propiedades
@@ -37,7 +37,7 @@ export const Tasks = () => {
         if (tasks?.length) {
             setList(tasks)
             setRenderList(tasks)
-        }else{
+        } else {
             setList(null)
             setRenderList(null)
         }
@@ -86,37 +86,39 @@ export const Tasks = () => {
             <main id="tasks">
                 <TaskForm />
                 <section className="wrapper_list">
-                    <div className="list_header">
-                        <h2>Mis tareas</h2>
+                    <div className="container-search">
+                        <div className="list_header">
+                            <h2>Mis tareas</h2>
+                        </div>
+                        <FormControl>
+                            <RadioGroup
+                                row
+                                aria-labelledby="demo-row-radio-buttons-group-label"
+                                onChange={(event) => setTasksFromWho(event.currentTarget.value)}
+                            >
+                                <FormControlLabel
+                                    value="ME"
+                                    control={<Radio />}
+                                    label="Mis tareas"
+                                />
+                                <FormControlLabel
+                                    value="ALL"
+                                    control={<Radio />}
+                                    label="Todas"
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                        <div>
+                            <input type="search" placeholder="Buscar por titulo..." onChange={handleSearch} />
+                        </div>
+                        <select name='importance' onChange={handleChangeimportance}>
+                            <option value="">Seleccionar opción</option>
+                            <option value="ALL">Todas</option>
+                            <option value="LOW">Baja</option>
+                            <option value="MEDIUM">Media</option>
+                            <option value="HIGH">Alta</option>
+                        </select>
                     </div>
-                    <FormControl>
-                        <RadioGroup
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            onChange={(event) => setTasksFromWho(event.currentTarget.value)}
-                        >
-                            <FormControlLabel
-                                value="ME"
-                                control={<Radio />}
-                                label="Mis tareas"
-                            />
-                            <FormControlLabel
-                                value="ALL"
-                                control={<Radio />}
-                                label="Todas"
-                            />
-                        </RadioGroup>
-                    </FormControl>
-                    <div>
-                        <input type="search" placeholder="Buscar por titulo..." onChange={handleSearch} />
-                    </div>
-                    <select name='importance' onChange={handleChangeimportance}>
-                        <option value="">Seleccionar opción</option>
-                        <option value="ALL">Todas</option>
-                        <option value="LOW">Baja</option>
-                        <option value="MEDIUM">Media</option>
-                        <option value="HIGH">Alta</option>
-                    </select>
                     <div className="list-group">
                         {
                             !renderList?.length ?
