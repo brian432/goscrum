@@ -15,12 +15,12 @@ export const Login = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if(login === true){
+        if (login === true) {
             navigate("/", { replace: true })//en el reducer, almacenar el token en una variable y luego almacenar el localStorage arriba de navigate
         }
-        else if(login === false){
+        else if (login === false) {
             swal()
-            dispatch(loginIncorrect())   
+            dispatch(loginIncorrect())
         }
     }, [login])
 
@@ -73,9 +73,7 @@ export const Login = () => {
                 <div>
                     <button type="submit">Enviar</button>
                 </div>
-                <div>
-                    <Link to="/register">Registrarme</Link>
-                </div>
+                <Link to="/register">Registrarme</Link>
             </form>
         </div >
     )
