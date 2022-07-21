@@ -16,7 +16,7 @@ export const Login = () => {
 
     useEffect(() => {
         if (login === true) {
-            navigate("/", { replace: true })//en el reducer, almacenar el token en una variable y luego almacenar el localStorage arriba de navigate
+            navigate("/", { replace: true })
         }
         else if (login === false) {
             swal()

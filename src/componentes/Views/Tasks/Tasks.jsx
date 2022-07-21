@@ -15,12 +15,12 @@ import { useEffect, useState } from "react"
 
 export const Tasks = () => {
 
-    const dispatch = useDispatch() //importamos dispatch
+    const dispatch = useDispatch()
 
     const { taskCreated } = useSelector(state => {
         return state.taskFormReducer
     })
-    const { loading, error, tasks } = useSelector(state => { // traemos el estado del store mediante useSelector() y desestructutamos el estado con sus propiedades
+    const { loading, error, tasks } = useSelector(state => { 
         return state.tasksReducer
     })
 
@@ -31,10 +31,10 @@ export const Tasks = () => {
 
     
     useEffect(() => {
-        dispatch(getTasks(tasksFromWho === "ME" ? "/me" : "")) //cuando se monte el componente, enviamos una accion al reducer mediante dispatch
+        dispatch(getTasks(tasksFromWho === "ME" ? "/me" : ""))
     }, [tasksFromWho, dispatch, taskCreated])
 
-    useEffect(() => { //Cuando se monte el componente, evaluara si tasks existe y si existe, actualizara el estado local mediante setList() y setRenderListe() para luego mapear los datos y renderizar el componente
+    useEffect(() => {
         if (tasks?.length) {
             setList(tasks)
             setRenderList(tasks)

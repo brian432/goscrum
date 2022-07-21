@@ -26,7 +26,7 @@ export const getDataSelect = () => dispatch => {
 }
 
 export const postRegister = (values, teamID) => dispatch => {
-    fetch(`${REACT_APP_API_ENDPOINT}auth/register`, { //Recordar que al probar la api, siempre cambiar el nombre de usuario y el email porque sino el post request tirara un error
+    fetch(`${REACT_APP_API_ENDPOINT}auth/register`, { 
         method: "POST",
         headers: {
             "Content-Type": "application/json",

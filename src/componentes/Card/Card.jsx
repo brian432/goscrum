@@ -12,7 +12,7 @@ export const Card = ({
         title,
         user: { userName }
     },
-    card //lo volvemos a nombrar a card para utilizarlo como un objeto completo y no desestructurado
+    card 
 }) => {
     const [showMore, setShowMore] = useState(false)
 

@@ -7,16 +7,16 @@ import { Tasks } from './componentes/Views/Tasks/Tasks'
 import './App.css'
 
 
-const Error404=lazy(()=>import('./componentes/Views/Error404/Error404')); //ver Lazy tutorial
+const Error404=lazy(()=>import('./componentes/Views/Error404/Error404')); 
 
-const RequireAuth = ({ children }) => { /*children hace referencia al componente hijo de RequireAuth*/
-    if (!localStorage.getItem("token")) { //Si no esta logeado, la app nos redirige hacia el componente login
+const RequireAuth = ({ children }) => { 
+    if (!localStorage.getItem("token")) { 
         return <Navigate to="/login" replace={true} />
     }
-    return children //si esta logeado, la app nos redirige hacia el componente hijo de RequireAuth
+    return children 
 }
 
-const pageTransition = { //es un objeto con los valores que vamos a referenciar dentro de los componentes de framer-motion
+const pageTransition = {
     in: { opacity: 1, },
     out: { opacity: 0, }
 }
@@ -27,16 +27,16 @@ export const App = () => {
     
     return (
         < AnimatePresence >
-            <Routes location={location} key={location.pathname}> {/*Utilizamos location para que cuando haya un cambio de ruta, framer-motion lo escuche y haga las animaciones*/}
+            <Routes location={location} key={location.pathname}> 
                 <Route
                     path="/"
                     element={
                         <motion.div
-                            className="page" //nombre de clase por defecto para framer-motion
-                            initial="out" //inicio de la animacion
-                            animate="in" //a la mitad de la animacion
-                            exit="out" //final de animacion
-                            variants={pageTransition} //objeto que ofrece contexto a las animaicon de motion.
+                            className="page" 
+                            initial="out" 
+                            animate="in" 
+                            exit="out" 
+                            variants={pageTransition} 
                         >
                             <RequireAuth>
                                 <Tasks />

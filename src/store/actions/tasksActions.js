@@ -28,7 +28,7 @@ export const getTasks = path => dispatch => {
 
 }
 
-export const deleteTasks = (id, tasksFromWho) => dispatch => { //cada card creada con el formulario, tiene una id, si le pasamos esa id a una peticion con el metodo "DELETE" esta eliminara ese objeto json de la base de dato.
+export const deleteTasks = (id, tasksFromWho) => dispatch => { 
     dispatch(tasksRequest())
     fetch(`${REACT_APP_API_ENDPOINT}task/${id}`, {
         method: "DELETE",
@@ -37,7 +37,7 @@ export const deleteTasks = (id, tasksFromWho) => dispatch => { //cada card cread
             Authorization: "Bearer " + localStorage.getItem("token")
         }
     }).then(response => response.json())
-        .then(() => dispatch(getTasks(tasksFromWho === "ME" ? "/me" : ""))) //Una vez realizada la eliminacion de la card, then llama a la accion getTasks que devolver todas las card menos la eliminada
+        .then(() => dispatch(getTasks(tasksFromWho === "ME" ? "/me" : ""))) 
         .catch(error => { dispatch(tasksFailure(error)) })
 }
 

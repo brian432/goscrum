@@ -14,7 +14,7 @@ export const TaskForm = () => {
     const  {taskCreated}  = useSelector(state => { return state.taskFormReducer })
 
     useEffect(() => {
-        if (taskCreated) { //Si la tarea se creo, taskCreated === true, cuando esto sucede, reseteamos el formulario, creamos un alerta con toast y volvemos a taskCreated === null porque si no lo hacemos, la constante quedara en true y al volverse a crear una tarea, el efecto secundario esperado no ocurrira porque taskCreated no cambia su valor 
+        if (taskCreated) {
             resetForm()
             toast("Tu tarea se creo")
             dispatch(switchTaskCreated())
@@ -42,7 +42,7 @@ export const TaskForm = () => {
     })
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit })
-    const { handleChange, handleSubmit, errors, touched, handleBlur, values, resetForm } = formik //errors para los manejar los errores, touched para mostrar un mensaje al salir de un campo sin completarlo
+    const { handleChange, handleSubmit, errors, touched, handleBlur, values, resetForm } = formik 
 
 
     return (
