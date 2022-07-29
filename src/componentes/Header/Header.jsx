@@ -17,7 +17,6 @@ export const Header = () => {
         dispatch(logout())
         navigate("/Login", { replace: true })
     }
-    console.log(logo);
     return (
         <header>
             <div className='container-header'>
