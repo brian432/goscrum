@@ -1,3 +1,5 @@
+import { postRegisterFetch } from "../../services/registerFetch"
+
 const { REACT_APP_API_ENDPOINT } = process.env
 
 export const dataSuccess = data => ({
@@ -21,29 +23,13 @@ export const switchRegister = () => ({
 export const getDataSelect = () => dispatch => {
     fetch(`${REACT_APP_API_ENDPOINT}auth/data`)
         .then(response => response.json())
-        .then(data => {dispatch(dataSuccess(data.result))
+        .then(data => {
+            dispatch(dataSuccess(data.result))
         })
 }
 
 export const postRegister = (values, teamID) => dispatch => {
-    fetch(`${REACT_APP_API_ENDPOINT}auth/register`, { 
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            user: {
-                userName: values.userName,
-                password: values.password,
-                email: values.email,
-                teamID,
-                role: values.role,
-                continent: values.continent,
-                region: values.region,
-            },
-        }),
-    })
-        .then((response) => response.json())
+    postRegisterFetch(values, teamID)
         .then(data => {
             if (data.status_code === 201) {
                 dispatch(registerSuccess(data.result.user.teamID))

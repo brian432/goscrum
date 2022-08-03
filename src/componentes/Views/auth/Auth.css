@@ -50,7 +50,7 @@ button{
     transition: all .3s ease-out;
     background-color:var(--global-primary-color);
     border-radius: var(--global-radius);
-    border: 0;
+    border: 1px solid;
     color: white;
     padding: 10px !important;
     font-size: 16px;

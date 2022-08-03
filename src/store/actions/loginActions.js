@@ -1,4 +1,4 @@
-const { REACT_APP_API_ENDPOINT } = process.env
+import { loginFetch } from "../../services/loginFetch"
 
 export const loginSucces = data => ({
     type: 'LOGIN_SUCCES',
@@ -11,17 +11,7 @@ export const loginFailure = error => ({
 })
 
 export const localStorageSaved = (userName, password) => dispatch => {
-    fetch(`${REACT_APP_API_ENDPOINT}auth/login`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            userName: userName,
-            password: password
-        }),
-    })
-        .then(response => response.json())
+    loginFetch(userName, password)
         .then(data => {
             if (data.status_code === 200) {
                 dispatch(loginSucces(data))
@@ -37,7 +27,7 @@ export const loginIncorrect = () => dispatch => {
     })
 }
 
-export const logout = () => dispatch =>{
+export const logout = () => dispatch => {
     dispatch({
         type: "LOGOUT"
     })

@@ -1,4 +1,4 @@
-const { REACT_APP_API_ENDPOINT } = process.env
+import { deleteTaskFetch, editTaskFetch, taskGetFetch } from "../../services/taskFetch"
 
 export const tasksRequest = () => ({
     type: "TASKS_REQUEST"
@@ -15,12 +15,7 @@ export const tasksFailure = error => ({
 
 export const getTasks = path => dispatch => {
     dispatch(tasksRequest())
-    fetch(`${REACT_APP_API_ENDPOINT}task${path}`, {
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: "Bearer " + localStorage.getItem("token")
-        }
-    }).then(response => response.json())
+    taskGetFetch(path)
         .then(data => {
             dispatch(tasksSuccess(data.result))
         })
@@ -28,49 +23,15 @@ export const getTasks = path => dispatch => {
 
 }
 
-export const deleteTasks = (id, tasksFromWho) => dispatch => { 
+export const deleteTasks = (id, tasksFromWho) => dispatch => {
     dispatch(tasksRequest())
-    fetch(`${REACT_APP_API_ENDPOINT}task/${id}`, {
-        method: "DELETE",
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: "Bearer " + localStorage.getItem("token")
-        }
-    }).then(response => response.json())
-        .then(() => dispatch(getTasks(tasksFromWho === "ME" ? "/me" : ""))) 
+    deleteTaskFetch(id)
+        .then(() => dispatch(getTasks(tasksFromWho === "ME" ? "/me" : "")))
         .catch(error => { dispatch(tasksFailure(error)) })
 }
 
 export const editTaskStatusOrImportance = (data, change, tasksFromWho) => dispatch => {
-    const statusArray = ["NEW", "IN PROGRESS", "FINISHED"]
-    const importanceArray = ["LOW", "MEDIUM", "HIGH"]
-
-    const newStatusIndex =
-        statusArray.indexOf(data.status) > 1
-            ? 0
-            : statusArray.indexOf(data.status) + 1
-
-    const newImportanceIndex =
-        importanceArray.indexOf(data.importance) > 1
-            ? 0
-            : importanceArray.indexOf(data.importance) + 1
-
-    fetch(`${REACT_APP_API_ENDPOINT}task/${data._id}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token")
-        },
-        body: JSON.stringify({
-            task: {
-                title: data.title,
-                importance: change === "importance" ? importanceArray[newImportanceIndex] : data.importance,
-                status: change === "status" ? statusArray[newStatusIndex] : data.status,
-                description: data.description,
-            },
-        })
-    })
-        .then(response => response.json())
-        .then(data => dispatch(getTasks(tasksFromWho === "ME" ? "/me" : "")))
+    editTaskFetch(data, change)
+        .then(() => dispatch(getTasks(tasksFromWho === "ME" ? "/me" : "")))
         .catch(error => dispatch(tasksFailure(error)))
 }

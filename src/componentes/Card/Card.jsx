@@ -25,7 +25,6 @@ export const Card = ({
     }
 
     return (
-
         <div className="card">
             <div className="close" onClick={() => deleteCard(_id)}>X</div>
             <h3>{title}</h3>
