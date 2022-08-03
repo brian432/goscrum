@@ -26,6 +26,7 @@
     justify-content: space-between;
     align-content: space-around;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 
 #tasks .card{
@@ -36,7 +37,8 @@
     padding: .8rem  1.1rem 0.9rem;
     position: relative;
     transition: transform .2s ease-out;
-    max-width: 500px;
+    max-width: 250px;
+    word-wrap: break-word;
 }
 
 .wrapper_list input,
@@ -55,8 +57,7 @@
     box-sizing: border-box;
 }
 .card p{
-    max-height: 200px;
-    overflow: auto;
+    max-height: auto;
 }
 
 #tasks .card .close{

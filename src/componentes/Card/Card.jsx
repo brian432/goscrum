@@ -1,5 +1,5 @@
 import { useState } from "react"
-
+import { limitString } from "../../utils/limitString"
 export const Card = ({
     deleteCard,
     editCardButton,
@@ -17,13 +17,6 @@ export const Card = ({
     const [showMore, setShowMore] = useState(false)
 
     const dateTime = new Date(createdAt).toLocaleString() + " hs."
-
-    const limitString = (str) => {
-        if (str.length > 170) {
-            return { string: str.slice(0, 167).concat("..."), addButton: true }
-        } return { string: str, addButton: false }
-    }
-
     return (
         <div className="card">
             <div className="close" onClick={() => deleteCard(_id)}>X</div>
