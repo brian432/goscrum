@@ -1,4 +1,4 @@
-import { useFormik } from "formik"
+import { Formik, Form, Field } from "formik"
 import { useNavigate, Link } from 'react-router-dom'
 import * as Yup from 'yup'
 import '../Auth.css'
@@ -24,11 +24,6 @@ export const Login = () => {
         }
     }, [login])
 
-    const initialValues = {
-        userName: "",
-        password: ""
-    }
-
     const required = "* Campo obligatorio"
 
     const validationSchema = Yup.object().shape({
@@ -36,45 +31,49 @@ export const Login = () => {
         password: Yup.string().required(required)
     })
 
-    const onSubmit = () => {
-        dispatch(localStorageSaved(values.userName, values.password))
-    }
-
-
-    const formik = useFormik({ initialValues, validationSchema, onSubmit })
-    const { handleChange, handleSubmit, values, errors, touched, handleBlur } = formik
-
     return (
         <div className="auth">
-            <form onSubmit={handleSubmit}>
-                <h1>Iniciar sesion</h1>
-                <div>
-                    <label>Nombre de usuario</label>
-                    <input
-                        name="userName"
-                        type="text"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.userName}
-                        className={errors.userName && touched.userName && "campoObligatorio"} />
-                    {errors.userName && touched.userName && <div className="primaryColor">{errors.userName}</div>}
-                </div>
-                <div>
-                    <label>Contraseña</label>
-                    <input
-                        type="password"
-                        name="password"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.password}
-                        className={errors.password && touched.password && "campoObligatorio"} />
-                    {errors.password && touched.password && <div className="primaryColor">{errors.password}</div>}
-                </div>
-                <div>
-                    <button type="submit">Enviar</button>
-                </div>
-                <Link to="/register">Registrarme</Link>
-            </form>
+            <Formik
+                initialValues={{
+                    userName: "",
+                    password: ""
+                }}
+                validationSchema={validationSchema}
+                onSubmit={(values) => {
+                    dispatch(localStorageSaved(values.userName, values.password))
+                }}
+            >
+            {({ errors, touched }) => (
+                <Form>
+                    <h1>Iniciar sesion</h1>
+                    <div>
+                        <label>Nombre de usuario</label>
+                        <Field
+                            name="userName"
+                            className={errors.userName && touched.userName && "campoObligatorio"}
+                        />
+                        {errors.userName && touched.userName ? (
+                            <span className='primaryColor'>{errors.userName}</span>
+                        ) : null}
+                    </div>
+                    <div>
+                        <label>Contraseña</label>
+                        <Field
+                            name="password"
+                            type="password"
+                            className={errors.password && touched.password && "campoObligatorio"}
+                        />
+                        {errors.password && touched.password ? (
+                            <span className='primaryColor'>{errors.password}</span>
+                        ) : null}
+                    </div>
+                    <div>
+                        <button type="submit">Enviar</button>
+                    </div>
+                    <Link to="/register">Registrarme</Link>
+                </Form>
+            )}
+            </Formik>
         </div >
     )
 }
