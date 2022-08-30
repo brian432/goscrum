@@ -45,7 +45,7 @@ export const Login = () => {
             >
             {({ errors, touched }) => (
                 <Form>
-                    <h1>Iniciar sesion</h1>
+                    <h1>Iniciar sesión</h1>
                     <div>
                         <label>Nombre de usuario</label>
                         <Field
