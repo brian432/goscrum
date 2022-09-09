@@ -12,7 +12,3 @@
 ![goScrum-readme](https://user-images.githubusercontent.com/80001602/189420814-d454f85b-1eb2-478b-8f75-6bd950eca886.jpg)
 ![Inicio de sesión](https://user-images.githubusercontent.com/80001602/187540627-278896be-75de-43ca-888c-b43e431f0984.jpeg)
 ![Registro](https://user-images.githubusercontent.com/80001602/187540625-d931bfe3-a43f-4a67-b717-5a48b110b67c.jpeg)
-
-# Versión Móvil
-
-![Versión Móvil](https://user-images.githubusercontent.com/80001602/187540622-b6a520b2-a8a1-49b3-8b96-b2c694146cd7.jpeg)
